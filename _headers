@@ -1,0 +1,20 @@
+# Cabeçalhos de segurança e cache — Cloudflare Pages
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+/corretor/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+/assets/img/*
+  Cache-Control: public, max-age=2592000
+
+/assets/css/*
+  Cache-Control: public, max-age=3600
+
+/assets/js/*
+  Cache-Control: public, max-age=3600

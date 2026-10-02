@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Realiza Consultoria Imobiliária — Comprar, vender e financiar imóveis</title>
+  <meta name="description" content="Realiza Consultoria Imobiliária: curadoria de imóveis, metodologia transparente e assessoria completa em financiamento, do primeiro contato à entrega das chaves.">
+  <meta name="theme-color" content="#F35B12">
+  <meta property="og:title" content="Realiza Consultoria Imobiliária">
+  <meta property="og:description" content="Seu imóvel, do sonho à chave. Ofertas selecionadas, simulação de financiamento e corretores especialistas.">
+  <meta property="og:image" content="assets/img/logo.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ============ TOPO ============ -->
+<header class="topo">
+  <div class="container">
+    <a href="#inicio" class="marca" aria-label="Realiza Consultoria Imobiliária — início">
+      <img src="assets/img/logo-icone.png" alt="" width="70" height="40">
+      <span class="marca-texto"><b>REALIZA</b><small>Consultoria Imobiliária</small></span>
+    </a>
+    <nav class="nav" id="menu">
+      <a href="#imoveis">Imóveis</a>
+      <a href="#metodo">Como trabalhamos</a>
+      <a href="#financiamento">Financiamento</a>
+      <a href="#corretores">Corretores</a>
+      <a href="#contato">Contato</a>
+      <a href="corretor/" class="btn btn-primario btn-sm"><i data-lucide="lock"></i> Área do Corretor</a>
+    </nav>
+    <button class="menu-btn" aria-label="Abrir menu" aria-controls="menu" aria-expanded="false"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<main>
+<!-- ============ 1. HERO + BUSCA ============ -->
+<section class="hero" id="inicio">
+  <div class="hero-fundo" role="img" aria-label="Fachada de casa moderna"></div>
+  <div class="container hero-grid">
+    <div class="revelar">
+      <span class="selo" style="color:var(--laranja-claro)">Consultoria imobiliária</span>
+      <h1>Do sonho à chave,<br>a gente <span>realiza</span> com você.</h1>
+      <p class="hero-sub">Imóveis selecionados, metodologia transparente e assessoria completa no financiamento. Um corretor dedicado cuida de cada etapa até a entrega das chaves.</p>
+      <div class="hero-acoes">
+        <a href="#imoveis" class="btn btn-primario"><i data-lucide="search"></i> Ver imóveis</a>
+        <a href="#financiamento" class="btn btn-contorno"><i data-lucide="calculator"></i> Simular financiamento</a>
+      </div>
+      <div class="hero-numeros">
+        <div><b id="n-imoveis">—</b><span>imóveis disponíveis</span></div>
+        <div><b id="n-corretores">—</b><span>corretores especialistas</span></div>
+        <div><b>5 etapas</b><span>do diagnóstico à chave</span></div>
+      </div>
+    </div>
+
+    <form class="busca revelar" id="form-busca" aria-label="Buscar imóveis">
+      <h3>Encontre seu imóvel</h3>
+      <p>Filtre e veja as ofertas que combinam com você.</p>
+      <div class="abas" role="tablist">
+        <button type="button" class="ativo" data-fin="venda" role="tab">Comprar</button>
+        <button type="button" data-fin="locacao" role="tab">Alugar</button>
+      </div>
+      <div class="busca-campos">
+        <div class="campo"><label for="b-tipo">Tipo</label>
+          <select id="b-tipo"><option value="">Todos</option></select></div>
+        <div class="campo"><label for="b-bairro">Bairro</label>
+          <select id="b-bairro"><option value="">Todos</option></select></div>
+        <div class="campo"><label for="b-quartos">Quartos</label>
+          <select id="b-quartos"><option value="0">Qualquer</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></div>
+        <div class="campo"><label for="b-preco">Valor até</label>
+          <select id="b-preco"><option value="">Sem limite</option></select></div>
+        <div class="campo cheio"><label for="b-texto">Palavra-chave ou código</label>
+          <input id="b-texto" type="search" placeholder="Ex.: piscina, sacada, RZ-101"></div>
+        <button class="btn btn-primario btn-bloco cheio" type="submit"><i data-lucide="search"></i> Buscar imóveis</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Faixa de diferenciais -->
+<div class="container faixa">
+  <div class="faixa-grid revelar">
+    <div class="faixa-item"><div class="ico"><i data-lucide="search-check"></i></div><div><b>Curadoria</b><span>Imóveis vistoriados e com documentação checada</span></div></div>
+    <div class="faixa-item"><div class="ico"><i data-lucide="landmark"></i></div><div><b>Crédito facilitado</b><span>Análise com vários bancos e uso do FGTS</span></div></div>
+    <div class="faixa-item"><div class="ico"><i data-lucide="user-check"></i></div><div><b>Corretor dedicado</b><span>Um responsável por você em todo o processo</span></div></div>
+    <div class="faixa-item"><div class="ico"><i data-lucide="file-check-2"></i></div><div><b>Segurança jurídica</b><span>Contratos e certidões acompanhados de perto</span></div></div>
+  </div>
+</div>
+
+<!-- ============ 2. OFERTAS ============ -->
+<section class="secao" id="imoveis">
+  <div class="container">
+    <div class="cabecalho-secao revelar">
+      <span class="selo">Ofertas selecionadas</span>
+      <h2>Imóveis que <em>valem a visita</em></h2>
+      <p>Cada oferta passa pela nossa curadoria. Abra a ficha técnica para ver metragens, custos, diferenciais e a simulação de parcelas.</p>
+    </div>
+
+    <form class="filtros revelar" id="form-filtros" aria-label="Filtrar ofertas">
+      <div class="campo"><label for="f-fin">Finalidade</label>
+        <select id="f-fin"><option value="venda">Comprar</option><option value="locacao">Alugar</option><option value="">Todas</option></select></div>
+      <div class="campo"><label for="f-tipo">Tipo</label><select id="f-tipo"><option value="">Todos</option></select></div>
+      <div class="campo"><label for="f-bairro">Bairro</label><select id="f-bairro"><option value="">Todos</option></select></div>
+      <div class="campo"><label for="f-quartos">Quartos</label>
+        <select id="f-quartos"><option value="0">Qualquer</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></div>
+      <div class="campo"><label for="f-extra">Condição</label>
+        <select id="f-extra"><option value="">Todas</option><option value="fin">Aceita financiamento</option><option value="fgts">Aceita FGTS</option><option value="mcmv">Minha Casa Minha Vida</option><option value="lancamento">Lançamentos</option></select></div>
+      <div class="campo"><label for="f-ordem">Ordenar</label>
+        <select id="f-ordem"><option value="destaque">Destaques</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="area">Maior área</option></select></div>
+      <button type="reset" class="btn btn-contorno btn-sm"><i data-lucide="rotate-ccw"></i> Limpar</button>
+    </form>
+
+    <div class="resultado-info"><span id="contador">Carregando imóveis…</span><a href="#contato" class="btn btn-sm btn-escuro" data-interesse="Encomendar imóvel"><i data-lucide="bell-ring"></i> Não achou? Encomende seu imóvel</a></div>
+    <div class="grade-imoveis" id="grade-imoveis" aria-live="polite">
+      <div class="esqueleto"></div><div class="esqueleto"></div><div class="esqueleto"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. METODOLOGIA ============ -->
+<section class="secao secao-suave" id="metodo">
+  <div class="container">
+    <div class="cabecalho-secao revelar">
+      <span class="selo">Metodologia Realiza</span>
+      <h2>Um caminho claro, <em>em 5 etapas</em></h2>
+      <p>Você sabe exatamente onde está e o que vem a seguir. Sem surpresas, sem letras miúdas.</p>
+    </div>
+    <div class="metodo">
+      <div class="passo revelar"><div class="passo-num"><i data-lucide="messages-square"></i></div><div><h3>Diagnóstico</h3><p>Entendemos seu momento, objetivo, região desejada e capacidade de compra.</p></div></div>
+      <div class="passo revelar"><div class="passo-num"><i data-lucide="calculator"></i></div><div><h3>Crédito aprovado</h3><p>Simulamos e pré-aprovamos o crédito antes da busca. Você compra sabendo quanto pode.</p></div></div>
+      <div class="passo revelar"><div class="passo-num"><i data-lucide="key-round"></i></div><div><h3>Curadoria e visitas</h3><p>Selecionamos só imóveis compatíveis e agendamos visitas no seu horário.</p></div></div>
+      <div class="passo revelar"><div class="passo-num"><i data-lucide="handshake"></i></div><div><h3>Negociação</h3><p>Defendemos o melhor preço e condição, com proposta formal e análise documental.</p></div></div>
+      <div class="passo revelar"><div class="passo-num"><i data-lucide="home"></i></div><div><h3>Contrato e chaves</h3><p>Acompanhamos assinatura, registro em cartório e a entrega das chaves.</p></div></div>
+    </div>
+
+    <div class="compromissos">
+      <div class="compromisso revelar"><h4><i data-lucide="eye"></i> Transparência total</h4><p>Todos os custos (ITBI, registro, avaliação bancária, taxas) são apresentados antes da proposta.</p></div>
+      <div class="compromisso revelar"><h4><i data-lucide="shield-check"></i> Documentação checada</h4><p>Matrícula, certidões e situação do vendedor verificadas antes de qualquer assinatura.</p></div>
+      <div class="compromisso revelar"><h4><i data-lucide="clock"></i> Retorno rápido</h4><p>Todo contato recebido pelo site é atendido por um corretor no mesmo dia útil.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. FINANCIAMENTO ============ -->
+<section class="secao" id="financiamento">
+  <div class="container fin-grid">
+    <div>
+      <div class="cabecalho-secao esq revelar">
+        <span class="selo">Financiamento facilitado</span>
+        <h2>O crédito certo para <em>o seu imóvel</em></h2>
+        <p>Comparamos condições entre bancos, cuidamos da papelada e acompanhamos a análise até a aprovação. Você só escolhe a melhor proposta.</p>
+      </div>
+      <div class="modalidades">
+        <div class="modalidade revelar"><div class="ico"><i data-lucide="building-2"></i></div><div><h4>Financiamento bancário (SFH/SFI)</h4><p>Até 35 anos, com entrada a partir de 20%. Comparamos taxas e sistemas SAC e PRICE.</p></div></div>
+        <div class="modalidade revelar"><div class="ico"><i data-lucide="heart-handshake"></i></div><div><h4>Minha Casa Minha Vida</h4><p>Subsídio e taxas reduzidas conforme a faixa de renda familiar. Verificamos seu enquadramento.</p></div></div>
+        <div class="modalidade revelar"><div class="ico"><i data-lucide="wallet"></i></div><div><h4>Uso do FGTS</h4><p>Na entrada, para amortizar o saldo ou reduzir parcelas, conforme as regras vigentes.</p></div></div>
+        <div class="modalidade revelar"><div class="ico"><i data-lucide="hard-hat"></i></div><div><h4>Imóveis na planta</h4><p>Entrada parcelada direto com a construtora durante a obra e financiamento na entrega.</p></div></div>
+      </div>
+      <div class="docs-lista revelar">
+        <h4><i data-lucide="folder-check" style="color:var(--laranja)"></i> Documentos para a análise de crédito</h4>
+        <ul>
+          <li>RG e CPF (ou CNH)</li><li>Comprovante de estado civil</li>
+          <li>Comprovante de residência</li><li>3 últimos holerites ou pró-labore</li>
+          <li>Declaração de IR completa</li><li>Extrato do FGTS (se for usar)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="simulador revelar" id="simulador">
+      <h3><i data-lucide="calculator"></i> Simulador de parcelas</h3>
+      <p>Faça uma estimativa agora. Um corretor confirma as condições reais com os bancos.</p>
+      <div class="sim-campos">
+        <div class="campo"><label for="s-valor">Valor do imóvel</label><input id="s-valor" inputmode="numeric" value="450.000"></div>
+        <div class="campo"><label for="s-entrada">Entrada</label><input id="s-entrada" inputmode="numeric" value="90.000"></div>
+        <div class="campo"><label for="s-prazo">Prazo</label>
+          <div class="faixa-range"><input id="s-prazo" type="range" min="5" max="35" step="1" value="30"><output id="o-prazo">30 anos</output></div></div>
+        <div class="campo"><label for="s-taxa">Taxa (% a.a.)</label><input id="s-taxa" type="number" step="0.01" min="0" value="11.5"></div>
+        <div class="campo"><label for="s-sistema">Sistema</label><select id="s-sistema"><option value="sac">SAC (parcelas decrescentes)</option><option value="price">PRICE (parcelas fixas)</option></select></div>
+        <div class="campo"><label for="s-renda">Renda familiar</label><input id="s-renda" inputmode="numeric" placeholder="opcional"></div>
+      </div>
+      <div class="sim-resultado" aria-live="polite">
+        <div class="destaque"><span>1ª parcela estimada</span><b id="r-primeira">—</b></div>
+        <div><span>Última parcela</span><b id="r-ultima">—</b></div>
+        <div><span>Valor financiado</span><b id="r-financiado">—</b></div>
+        <div><span>Total de juros</span><b id="r-juros">—</b></div>
+        <div><span>Renda mínima sugerida</span><b id="r-renda">—</b></div>
+      </div>
+      <p class="sim-nota" id="r-nota">Estimativa sem seguros (MIP/DFI) e tarifas. A aprovação e as condições finais dependem da análise do banco.</p>
+      <div class="sim-acoes">
+        <a href="#contato" class="btn btn-primario" id="btn-credito"><i data-lucide="badge-check"></i> Quero análise de crédito</a>
+        <a href="#imoveis" class="btn btn-contorno" id="btn-ver-faixa"><i data-lucide="search"></i> Imóveis nessa faixa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. CORRETORES ============ -->
+<section class="secao secao-suave" id="corretores">
+  <div class="container">
+    <div class="cabecalho-secao revelar">
+      <span class="selo">Nossa equipe</span>
+      <h2>Corretores que <em>conhecem o caminho</em></h2>
+      <p>Profissionais credenciados no CRECI, cada um com sua especialidade. Escolha com quem quer falar.</p>
+    </div>
+    <div class="grade-corretores" id="grade-corretores"></div>
+  </div>
+</section>
+
+<!-- ============ 6. CONTATO ============ -->
+<section class="secao" id="contato">
+  <div class="container">
+    <div class="cabecalho-secao revelar">
+      <span class="selo">Fale com a Realiza</span>
+      <h2>Vamos <em>realizar</em> juntos?</h2>
+      <p>Conte o que você procura. Um corretor retorna no mesmo dia útil, pelo canal que preferir.</p>
+    </div>
+    <div class="contato-grid revelar">
+      <aside class="contato-info">
+        <h3>Atendimento</h3>
+        <p>Preferiu conversar agora? Chame no WhatsApp ou ligue.</p>
+        <a class="canal" data-wa><span class="ico"><i data-lucide="message-circle"></i></span><span><small>WhatsApp</small><b data-empresa="telefone">(47) 99999-9999</b></span></a>
+        <a class="canal" data-mail><span class="ico"><i data-lucide="mail"></i></span><span><small>E-mail</small><b data-empresa="email">contato@</b></span></a>
+        <div class="canal"><span class="ico"><i data-lucide="map-pin"></i></span><span><small>Endereço</small><b data-empresa="endereco"></b><br><b data-empresa="cidade"></b></span></div>
+        <div class="canal"><span class="ico"><i data-lucide="clock"></i></span><span><small>Horário</small><b data-empresa="horario"></b></span></div>
+        <div class="redes">
+          <a data-social="instagram" aria-label="Instagram" target="_blank" rel="noopener"><i data-lucide="instagram"></i></a>
+          <a data-social="facebook" aria-label="Facebook" target="_blank" rel="noopener"><i data-lucide="facebook"></i></a>
+          <a data-social="youtube" aria-label="YouTube" target="_blank" rel="noopener"><i data-lucide="youtube"></i></a>
+        </div>
+      </aside>
+
+      <form class="form-contato" id="form-lead" novalidate>
+        <h3>Solicite atendimento</h3>
+        <div class="campo"><label for="l-nome">Nome *</label><input id="l-nome" name="nome" required autocomplete="name"></div>
+        <div class="campo"><label for="l-tel">WhatsApp *</label><input id="l-tel" name="telefone" required inputmode="tel" autocomplete="tel" placeholder="(47) 99999-9999"></div>
+        <div class="campo"><label for="l-email">E-mail</label><input id="l-email" name="email" type="email" autocomplete="email"></div>
+        <div class="campo"><label for="l-interesse">Interesse *</label>
+          <select id="l-interesse" name="interesse" required>
+            <option>Comprar</option><option>Alugar</option><option>Financiamento</option><option>Vender meu imóvel</option><option>Investir</option><option>Encomendar imóvel</option>
+          </select></div>
+        <div class="campo"><label for="l-imovel">Imóvel de interesse</label><select id="l-imovel" name="imovel_id"><option value="">Nenhum específico</option></select></div>
+        <div class="campo"><label for="l-corretor">Corretor preferido</label><select id="l-corretor" name="corretor_id"><option value="">Qualquer corretor</option></select></div>
+        <div class="campo cheio"><label for="l-msg">Mensagem</label><textarea id="l-msg" name="mensagem" placeholder="Ex.: procuro 3 quartos perto de escolas, até R$ 600 mil, com financiamento."></textarea></div>
+        <input class="mel" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="check cheio"><input type="checkbox" id="l-lgpd" required> Autorizo a Realiza a entrar em contato e a tratar meus dados para este atendimento, conforme a LGPD.</label>
+        <div class="form-msg" id="l-retorno" role="status"></div>
+        <button class="btn btn-primario cheio" type="submit" id="l-enviar"><i data-lucide="send"></i> Enviar e falar com um corretor</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="cta revelar">
+    <div><h2>Quer vender ou alugar seu imóvel?</h2><p>Avaliação gratuita, fotos profissionais e divulgação para compradores já qualificados.</p></div>
+    <a href="#contato" class="btn btn-claro" data-interesse="Vender meu imóvel"><i data-lucide="tag"></i> Anunciar meu imóvel</a>
+  </div>
+</div>
+</main>
+
+<!-- ============ RODAPÉ ============ -->
+<footer class="rodape">
+  <div class="container">
+    <div class="rodape-grid">
+      <div>
+        <span class="rodape-marca"><img src="assets/img/logo.png" alt="Realiza Consultoria Imobiliária" width="120" height="97"></span>
+        <p style="font-size:.9rem">Consultoria imobiliária com curadoria, transparência e assessoria completa em financiamento.</p>
+        <p style="font-size:.82rem;margin-top:10px" data-empresa="creci"></p>
+      </div>
+      <div><h4>Navegação</h4><ul><li><a href="#imoveis">Imóveis</a></li><li><a href="#metodo">Como trabalhamos</a></li><li><a href="#financiamento">Financiamento</a></li><li><a href="#corretores">Corretores</a></li></ul></div>
+      <div><h4>Serviços</h4><ul><li><a href="#imoveis">Compra e venda</a></li><li><a href="#imoveis">Locação</a></li><li><a href="#simulador">Simulação de crédito</a></li><li><a href="#contato" data-interesse="Vender meu imóvel">Avaliação de imóvel</a></li></ul></div>
+      <div><h4>Contato</h4><ul><li><a data-wa data-empresa="telefone"></a></li><li><a data-mail data-empresa="email"></a></li><li data-empresa="cidade"></li><li><a href="corretor/">Área do Corretor</a></li></ul></div>
+    </div>
+    <div class="rodape-base"><span>© <span data-ano></span> Realiza Consultoria Imobiliária. Todos os direitos reservados.</span><span>Imagens meramente ilustrativas. Valores sujeitos a alteração sem aviso prévio.</span></div>
+  </div>
+</footer>
+
+<a class="wa-flutuante" data-wa aria-label="Conversar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.6.1c-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.2 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.9 1.9 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.2 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0/dist/umd/lucide.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/demo-data.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

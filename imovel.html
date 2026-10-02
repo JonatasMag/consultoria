@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ficha técnica do imóvel — Realiza Consultoria Imobiliária</title>
+  <meta name="description" content="Ficha técnica completa: metragens, custos, diferenciais, localização e simulação de financiamento.">
+  <meta name="theme-color" content="#F35B12">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="topo solido">
+  <div class="container">
+    <a href="./" class="marca" aria-label="Realiza Consultoria Imobiliária — início">
+      <img src="assets/img/logo-icone.png" alt="" width="70" height="40">
+      <span class="marca-texto"><b>REALIZA</b><small>Consultoria Imobiliária</small></span>
+    </a>
+    <nav class="nav" id="menu">
+      <a href="./#imoveis">Imóveis</a>
+      <a href="./#metodo">Como trabalhamos</a>
+      <a href="./#financiamento">Financiamento</a>
+      <a href="./#corretores">Corretores</a>
+      <a href="./#contato">Contato</a>
+      <a href="corretor/" class="btn btn-primario btn-sm"><i data-lucide="lock"></i> Área do Corretor</a>
+    </nav>
+    <button class="menu-btn" aria-label="Abrir menu" aria-controls="menu" aria-expanded="false"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<main class="pagina-imovel">
+  <div class="container" id="conteudo">
+    <div class="esqueleto" style="height:60vh;margin-top:30px"></div>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galeria de fotos">
+  <button class="fechar" aria-label="Fechar"><i data-lucide="x"></i></button>
+  <button class="ant" aria-label="Foto anterior"><i data-lucide="chevron-left"></i></button>
+  <img alt="">
+  <button class="prox" aria-label="Próxima foto"><i data-lucide="chevron-right"></i></button>
+  <span class="cont"></span>
+</div>
+
+<footer class="rodape">
+  <div class="container">
+    <div class="rodape-base" style="margin-top:0;border-top:0;padding-top:0">
+      <span>© <span data-ano></span> Realiza Consultoria Imobiliária · <span data-empresa="creci"></span></span>
+      <span>Imagens meramente ilustrativas. Valores sujeitos a alteração sem aviso prévio.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-flutuante" data-wa aria-label="Conversar no WhatsApp" id="wa-flut">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.6.1c-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.2 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.9 1.9 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.2 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0/dist/umd/lucide.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/demo-data.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/imovel.js"></script>
+</body>
+</html>
