@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel do Corretor — Realiza</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1C1D21">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/painel.css">
+</head>
+<body class="painel">
+<div class="app" id="app" hidden>
+  <aside class="lateral-app" id="lateral">
+    <div class="logo-app">
+      <img src="../assets/img/logo-icone.png" alt="">
+      <div><b>REALIZA</b><small>Área do corretor</small></div>
+    </div>
+    <nav class="menu-app">
+      <button data-vista="funil" class="ativo"><i data-lucide="kanban-square"></i> Funil de leads <span class="badge" id="badge-novos">0</span></button>
+      <button data-vista="leads"><i data-lucide="users"></i> Todos os leads</button>
+      <button data-vista="imoveis"><i data-lucide="building-2"></i> Imóveis</button>
+      <button data-vista="indicadores"><i data-lucide="bar-chart-3"></i> Indicadores</button>
+      <button data-vista="equipe"><i data-lucide="id-card"></i> Equipe</button>
+      <a href="../" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 12px;font-weight:600;font-size:.92rem"><i data-lucide="external-link"></i> Ver site</a>
+    </nav>
+    <div class="usuario-app">
+      <div class="avatar" id="u-avatar">?</div>
+      <div><b id="u-nome">—</b><small id="u-papel">Corretor</small></div>
+      <button id="sair" title="Sair" aria-label="Sair"><i data-lucide="log-out"></i></button>
+    </div>
+  </aside>
+
+  <main class="conteudo-app">
+    <div class="faixa-demo" id="faixa-demo" hidden>Modo demonstração: os dados ficam só neste navegador. Configure o Supabase em <code>assets/js/config.js</code> para usar com a equipe.</div>
+
+    <!-- FUNIL -->
+    <section class="vista ativa" id="v-funil">
+      <div class="barra-app">
+        <div style="display:flex;gap:12px;align-items:center"><button class="menu-movel" aria-label="Menu"><i data-lucide="menu"></i></button>
+          <div><h1>Funil de leads</h1><p>Arraste os cartões entre as etapas. Clique para ver detalhes.</p></div></div>
+        <div class="barra-acoes">
+          <label class="busca-app"><i data-lucide="search"></i><input type="search" id="busca-funil" placeholder="Buscar nome, telefone, imóvel…"></label>
+          <select class="sel-app" id="filtro-dono"><option value="todos">Todos visíveis</option><option value="meus">Meus leads</option><option value="livres">Sem corretor</option></select>
+          <button class="btn btn-primario btn-sm" data-novo-lead><i data-lucide="plus"></i> Novo lead</button>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="kanban" id="kanban"></div>
+    </section>
+
+    <!-- LEADS -->
+    <section class="vista" id="v-leads">
+      <div class="barra-app">
+        <div style="display:flex;gap:12px;align-items:center"><button class="menu-movel" aria-label="Menu"><i data-lucide="menu"></i></button>
+          <div><h1>Todos os leads</h1><p>Lista completa com filtros e exportação.</p></div></div>
+        <div class="barra-acoes">
+          <label class="busca-app"><i data-lucide="search"></i><input type="search" id="busca-leads" placeholder="Buscar…"></label>
+          <select class="sel-app" id="filtro-etapa"><option value="">Todas as etapas</option></select>
+          <button class="btn btn-contorno btn-sm" id="exportar"><i data-lucide="download"></i> Exportar CSV</button>
+          <button class="btn btn-primario btn-sm" data-novo-lead><i data-lucide="plus"></i> Novo lead</button>
+        </div>
+      </div>
+      <div class="tabela-wrap"><table class="tabela"><thead><tr><th>Recebido</th><th>Nome</th><th>Contato</th><th>Interesse</th><th>Imóvel</th><th>Origem</th><th>Etapa</th><th>Corretor</th></tr></thead><tbody id="tb-leads"></tbody></table></div>
+    </section>
+
+    <!-- IMÓVEIS -->
+    <section class="vista" id="v-imoveis">
+      <div class="barra-app">
+        <div style="display:flex;gap:12px;align-items:center"><button class="menu-movel" aria-label="Menu"><i data-lucide="menu"></i></button>
+          <div><h1>Imóveis</h1><p>Cadastre e mantenha a apresentação técnica das ofertas.</p></div></div>
+        <div class="barra-acoes">
+          <label class="busca-app"><i data-lucide="search"></i><input type="search" id="busca-imoveis" placeholder="Código, título, bairro…"></label>
+          <button class="btn btn-primario btn-sm" id="novo-imovel"><i data-lucide="plus"></i> Novo imóvel</button>
+        </div>
+      </div>
+      <div class="tabela-wrap"><table class="tabela"><thead><tr><th></th><th>Código</th><th>Título</th><th>Bairro</th><th>Valor</th><th>Situação</th><th>Leads</th><th>No site</th></tr></thead><tbody id="tb-imoveis"></tbody></table></div>
+    </section>
+
+    <!-- INDICADORES -->
+    <section class="vista" id="v-indicadores">
+      <div class="barra-app">
+        <div style="display:flex;gap:12px;align-items:center"><button class="menu-movel" aria-label="Menu"><i data-lucide="menu"></i></button>
+          <div><h1>Indicadores</h1><p>Desempenho do funil no período.</p></div></div>
+        <div class="barra-acoes"><select class="sel-app" id="periodo"><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="365">Últimos 12 meses</option><option value="0">Todo o período</option></select></div>
+      </div>
+      <div class="kpis" id="kpis-ind"></div>
+      <div class="paineis" id="paineis"></div>
+    </section>
+
+    <!-- EQUIPE -->
+    <section class="vista" id="v-equipe">
+      <div class="barra-app">
+        <div style="display:flex;gap:12px;align-items:center"><button class="menu-movel" aria-label="Menu"><i data-lucide="menu"></i></button>
+          <div><h1>Equipe</h1><p>Perfis exibidos na página pública dos corretores.</p></div></div>
+        <div class="barra-acoes"><button class="btn btn-primario btn-sm" id="novo-corretor" hidden><i data-lucide="user-plus"></i> Novo corretor</button></div>
+      </div>
+      <div class="tabela-wrap"><table class="tabela"><thead><tr><th>Corretor</th><th>CRECI</th><th>E-mail de acesso</th><th>WhatsApp</th><th>Leads ativos</th><th>Perfil</th><th>Status</th></tr></thead><tbody id="tb-equipe"></tbody></table></div>
+    </section>
+  </main>
+</div>
+
+<div class="veu" id="veu"></div>
+<aside class="gaveta" id="gaveta" aria-modal="true" role="dialog"></aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0/dist/umd/lucide.min.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/demo-data.js"></script>
+<script src="../assets/js/painel.js"></script>
+</body>
+</html>

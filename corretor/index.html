@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Área do Corretor — Realiza Consultoria Imobiliária</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1C1D21">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/painel.css">
+</head>
+<body>
+<div class="login-pg">
+  <section class="login-arte">
+    <a href="../" style="position:relative;display:inline-flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><i data-lucide="arrow-left"></i> Voltar ao site</a>
+    <div>
+      <h1>Seu funil de vendas, organizado do primeiro contato à chave.</h1>
+      <p>Leads do site chegam aqui em tempo real. Acompanhe etapas, registre interações e mantenha os imóveis atualizados.</p>
+    </div>
+    <span></span>
+  </section>
+  <section class="login-form">
+    <form id="form-login" novalidate>
+      <img src="../assets/img/logo.png" alt="Realiza Consultoria Imobiliária" width="137" height="110">
+      <h2>Área do Corretor</h2>
+      <p class="sub">Acesso exclusivo da equipe Realiza.</p>
+      <div class="campo"><label for="email">E-mail</label><input id="email" type="email" required autocomplete="username"></div>
+      <div class="campo"><label for="senha">Senha</label><input id="senha" type="password" required autocomplete="current-password"></div>
+      <div class="form-msg" id="retorno" role="alert"></div>
+      <button class="btn btn-primario btn-bloco" type="submit"><i data-lucide="log-in"></i> Entrar</button>
+      <p class="sub" style="margin-top:0;font-size:.8rem">Sem acesso ou esqueceu a senha? Fale com o administrador.</p>
+    </form>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0/dist/umd/lucide.min.js"></script>
+<script src="../assets/js/config.js"></script>
+<script>
+(async () => {
+  const cfg = window.REALIZA_CONFIG;
+  const online = !!(cfg.supabaseUrl && cfg.supabaseAnonKey && window.supabase);
+  const sb = online ? supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey) : null;
+  const ret = document.getElementById("retorno");
+  window.lucide && lucide.createIcons();
+
+  if (!online) {
+    ret.className = "form-msg ok";
+    ret.innerHTML = "<b>Modo demonstração.</b> Supabase ainda não configurado: qualquer e-mail e senha abrem o painel com dados de exemplo.";
+  } else {
+    const { data } = await sb.auth.getSession();
+    if (data.session) location.replace("painel.html");
+  }
+
+  document.getElementById("form-login").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim(), senha = document.getElementById("senha").value;
+    if (!online) { sessionStorage.setItem("rz_demo_user", email || "demo@realiza"); location.href = "painel.html"; return; }
+    if (!email || !senha) { ret.className = "form-msg erro"; ret.textContent = "Informe e-mail e senha."; return; }
+    const btn = e.submitter; btn.disabled = true;
+    const { error } = await sb.auth.signInWithPassword({ email, password: senha });
+    btn.disabled = false;
+    if (error) { ret.className = "form-msg erro"; ret.textContent = "E-mail ou senha incorretos."; return; }
+    location.href = "painel.html";
+  });
+})();
+</script>
+</body>
+</html>
