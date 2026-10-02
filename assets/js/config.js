@@ -22,8 +22,8 @@ window.REALIZA_CONFIG = {
      Project Settings → API → copie "Project URL" e "anon public key".
      Enquanto estiver vazio, o site roda em MODO DEMONSTRAÇÃO
      com imóveis e corretores de exemplo. */
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://kbjeskaudbvjdcmokrut.supabase.co",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiamVza2F1ZGJ2amRjbW9rcnV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MDQ5MzYsImV4cCI6MjEwNjQ4MDkzNn0.2ss-lIIdHy5p4KPddjexZJuJkI3lGfA2KAHevYOZohg",
 
   financiamento: {
     taxaAnualPadrao: 11.5,   // taxa de referência do simulador (% a.a.) — ajuste conforme o banco
