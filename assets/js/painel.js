@@ -580,6 +580,48 @@
     }).join("");
     $$("#tb-equipe tr[data-id]").forEach((tr) => tr.onclick = () => abrirCorretor(tr.dataset.id));
   }
+  /* Foto do corretor: recorta em quadrado (priorizando o rosto, na parte de cima),
+     reduz para 600×600 e envia para o Supabase Storage. */
+  function quadrado600(file) {
+    return new Promise((ok, erro) => {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const lado = Math.min(img.width, img.height);
+        const sx = (img.width - lado) / 2;
+        const sy = img.height > img.width ? Math.min((img.height - lado) * 0.15, img.height - lado) : 0;
+        const cv = document.createElement("canvas"); cv.width = cv.height = 600;
+        const ctx = cv.getContext("2d"); ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, sx, sy, lado, lado, 0, 0, 600, 600);
+        URL.revokeObjectURL(url);
+        cv.toBlob((b) => b ? ok(new File([b], "perfil.jpg", { type: "image/jpeg" })) : erro(new Error("falha ao converter")), "image/jpeg", 0.9);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); erro(new Error("imagem inválida")); };
+      img.src = url;
+    });
+  }
+  function ligarFotoCorretor(c) {
+    const input = $("#cor-foto"), prev = $("#cor-prev"), msg = $("#cor-foto-msg"), rm = $("#cor-foto-rm");
+    const campo = $("#f-cor").foto_url;
+    input.onchange = async () => {
+      const file = input.files[0]; input.value = "";
+      if (!file) return;
+      if (!/^image\//.test(file.type)) { toast("Escolha um arquivo de imagem.", true); return; }
+      if (file.size > 15 * 1024 * 1024) { toast("Imagem muito grande (máx. 15 MB).", true); return; }
+      msg.textContent = "Enviando…";
+      try {
+        const pronta = await quadrado600(file);
+        const nome = (c.nome || "corretor").normalize("NFD").replace(/[^\w]+/g, "-").toLowerCase();
+        const r = await DB.uploadFoto(pronta, "corretores/" + nome);
+        if (r.erro) { msg.textContent = r.erro; toast(esc(r.erro), true); return; }
+        campo.value = r.url;
+        prev.innerHTML = `<img src="${esc(r.url)}" alt="">`;
+        rm.style.display = "";
+        msg.textContent = "Foto enviada. Clique em Salvar para confirmar.";
+      } catch (e) { msg.textContent = "Não foi possível ler esta imagem."; }
+    };
+    rm.onclick = () => { campo.value = ""; prev.innerHTML = iniciais(c.nome || "?"); rm.style.display = "none"; msg.textContent = "Foto removida. Clique em Salvar para confirmar."; };
+  }
+
   function abrirCorretor(id) {
     const c = id ? corretor(id) : { nome: "", email: "", creci: "", whatsapp: "55", especialidades: [], bio: "", foto_url: "", ativo: true, is_admin: false };
     const proprio = c.id === S.eu.id, admin = S.eu.is_admin;
@@ -596,13 +638,24 @@
             ${admin ? '<span class="ajuda">Crie um usuário com este mesmo e-mail em Supabase → Authentication → Users. No primeiro login o acesso é vinculado automaticamente.</span>' : ""}</div>
           <div class="campo cheia"><label>Especialidades (separadas por vírgula)</label><input name="especialidades" value="${esc((c.especialidades || []).join(", "))}"></div>
           <div class="campo cheia"><label>Mini-biografia</label><textarea name="bio" maxlength="240">${v("bio")}</textarea></div>
-          <div class="campo cheia"><label>Foto (URL)</label><input name="foto_url" value="${v("foto_url")}" placeholder="https://…"></div>
+          <div class="campo cheia"><label>Foto do corretor</label>
+            <div class="foto-perfil">
+              <div class="avatar" id="cor-prev">${c.foto_url ? `<img src="${v("foto_url")}" alt="">` : iniciais(c.nome || "?")}</div>
+              <div style="display:grid;gap:8px;flex:1">
+                <label class="btn btn-escuro btn-sm" style="justify-self:start"><i data-lucide="upload"></i> Enviar foto do computador ou celular
+                  <input type="file" id="cor-foto" accept="image/jpeg,image/png,image/webp" hidden></label>
+                <span class="ajuda" id="cor-foto-msg">JPG ou PNG. A foto é ajustada automaticamente para o círculo do site.</span>
+                <button type="button" class="btn btn-contorno btn-sm" id="cor-foto-rm" style="justify-self:start;${c.foto_url ? "" : "display:none"}">Remover foto</button>
+              </div>
+            </div>
+            <input type="hidden" name="foto_url" value="${v("foto_url")}"></div>
           ${admin ? `<label class="switch"><input type="checkbox" name="ativo" ${c.ativo ? "checked" : ""} ${proprio ? "disabled" : ""}> Ativo (aparece no site e acessa o painel)</label>
           <label class="switch"><input type="checkbox" name="is_admin" ${c.is_admin ? "checked" : ""} ${proprio ? "disabled" : ""}> Administrador</label>` : ""}
         </div>
       </form>
       <div class="gaveta-rod"><button class="btn btn-contorno btn-sm" data-fechar>Fechar</button><button class="btn btn-primario btn-sm" id="salvar-cor"><i data-lucide="save"></i> Salvar</button></div>`);
     $$("[data-fechar]").forEach((b) => b.onclick = fecharGaveta);
+    ligarFotoCorretor(c);
     $("#salvar-cor").onclick = async () => {
       const f = $("#f-cor");
       if (!f.nome.value.trim()) { toast("Informe o nome.", true); return; }
