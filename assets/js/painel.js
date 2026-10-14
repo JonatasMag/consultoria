@@ -159,6 +159,21 @@
       if (error) return { erro: error.message };
       return { url: sb.storage.from("imoveis").getPublicUrl(nome).data.publicUrl };
     },
+    async definirSenha(c, senha, proprio) {
+      if (!ONLINE) return { erro: "Disponível somente com o Supabase configurado." };
+      if (proprio) {
+        const { error } = await sb.auth.updateUser({ password: senha });
+        if (error) return { erro: /same|different/i.test(error.message) ? "A nova senha precisa ser diferente da atual." : "Não foi possível alterar: " + error.message };
+        return {};
+      }
+      const { error } = await sb.rpc("admin_definir_senha", { p_corretor_id: c.id, p_senha: senha });
+      if (error) {
+        if (/function .*admin_definir_senha|Could not find the function/i.test(error.message))
+          return { erro: "Falta ativar esta função no banco: rode o arquivo supabase/senha-equipe.sql no SQL Editor do Supabase." };
+        return { erro: error.message };
+      }
+      return {};
+    },
     async sair() { if (ONLINE) await sb.auth.signOut(); else sessionStorage.removeItem("rz_demo_user"); location.replace("./"); }
   };
 
@@ -622,6 +637,38 @@
     rm.onclick = () => { campo.value = ""; prev.innerHTML = iniciais(c.nome || "?"); rm.style.display = "none"; msg.textContent = "Foto removida. Clique em Salvar para confirmar."; };
   }
 
+  /* Senha de acesso: o próprio corretor troca a sua; o administrador cria/troca a dos outros */
+  function ligarSenha(c, proprio) {
+    const campo = $("#nova-senha"), btn = $("#definir-senha"), ret = $("#senha-ok");
+    if (!campo || !btn) return;
+    const gerar = $("#gerar-senha");
+    if (gerar) gerar.onclick = () => {
+      const chars = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
+      const r = crypto.getRandomValues(new Uint32Array(10));
+      campo.value = "Rz" + Array.from(r, (n) => chars[n % chars.length]).join("");
+    };
+    btn.onclick = async () => {
+      const senha = campo.value.trim();
+      ret.className = "form-msg";
+      if (senha.length < 8) { ret.textContent = "A senha precisa ter pelo menos 8 caracteres."; ret.className = "form-msg erro"; return; }
+      btn.disabled = true;
+      const r = await DB.definirSenha(c, senha, proprio);
+      btn.disabled = false;
+      if (r.erro) { ret.textContent = r.erro; ret.className = "form-msg erro"; return; }
+      if (proprio) { ret.textContent = "Senha alterada! Use a nova senha no próximo login."; ret.className = "form-msg ok"; campo.value = ""; return; }
+      const site = location.origin + "/corretor/";
+      const msg = `Olá, ${c.nome.split(" ")[0]}! Seu acesso à Área do Corretor da Realiza está pronto.\n\nEndereço: ${site}\nE-mail: ${c.email}\nSenha: ${senha}\n\nDepois de entrar, você pode trocar a senha em Equipe → seu nome.`;
+      ret.innerHTML = `<b>Senha definida!</b> ${esc(c.nome.split(" ")[0])} já pode entrar com o e-mail <b>${esc(c.email)}</b>.
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          ${c.whatsapp ? `<a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="${waLink(c.whatsapp, msg)}"><i data-lucide="message-circle"></i> Enviar acesso pelo WhatsApp</a>` : ""}
+          <button type="button" class="btn btn-contorno btn-sm" id="copiar-acesso"><i data-lucide="copy"></i> Copiar dados de acesso</button>
+        </div>`;
+      ret.className = "form-msg ok"; ic();
+      $("#copiar-acesso").onclick = async () => { try { await navigator.clipboard.writeText(msg); toast("Dados de acesso copiados"); } catch (_) { toast("Não foi possível copiar", true); } };
+      S.corretores = await DB.corretores(); renderEquipe();
+    };
+  }
+
   function abrirCorretor(id) {
     const c = id ? corretor(id) : { nome: "", email: "", creci: "", whatsapp: "55", especialidades: [], bio: "", foto_url: "", ativo: true, is_admin: false };
     const proprio = c.id === S.eu.id, admin = S.eu.is_admin;
@@ -635,7 +682,7 @@
           <div class="campo"><label>CRECI</label><input name="creci" value="${v("creci")}" placeholder="CRECI 00000-F"></div>
           <div class="campo"><label>WhatsApp (55 + DDD + número)</label><input name="whatsapp" value="${v("whatsapp")}" inputmode="numeric"></div>
           <div class="campo cheia"><label>E-mail de acesso ao painel</label><input name="email" type="email" value="${v("email")}" ${admin ? "" : "disabled"}>
-            ${admin ? '<span class="ajuda">Crie um usuário com este mesmo e-mail em Supabase → Authentication → Users. No primeiro login o acesso é vinculado automaticamente.</span>' : ""}</div>
+            ${admin ? '<span class="ajuda">É com este e-mail que o corretor entra no painel. A senha é criada logo abaixo, em "Senha de acesso".</span>' : ""}</div>
           <div class="campo cheia"><label>Especialidades (separadas por vírgula)</label><input name="especialidades" value="${esc((c.especialidades || []).join(", "))}"></div>
           <div class="campo cheia"><label>Mini-biografia</label><textarea name="bio" maxlength="240">${v("bio")}</textarea></div>
           <div class="campo cheia"><label>Foto do corretor</label>
@@ -652,10 +699,23 @@
           ${admin ? `<label class="switch"><input type="checkbox" name="ativo" ${c.ativo ? "checked" : ""} ${proprio ? "disabled" : ""}> Ativo (aparece no site e acessa o painel)</label>
           <label class="switch"><input type="checkbox" name="is_admin" ${c.is_admin ? "checked" : ""} ${proprio ? "disabled" : ""}> Administrador</label>` : ""}
         </div>
+        ${c.id && (proprio || admin) ? `
+        <div class="bloco-senha">
+          <div class="titulo-sub"><i data-lucide="key-round"></i> Senha de acesso ${proprio ? "(a sua)" : "ao painel"}</div>
+          ${!proprio && !c.email ? `<p class="ajuda">Informe o e-mail de acesso acima e clique em <b>Salvar</b> antes de criar a senha.</p>` : `
+          <p class="ajuda">${proprio ? "Troque a sua senha quando quiser." : `Crie ou troque a senha de <b>${esc(c.nome.split(" ")[0])}</b>. Ele entra com o e-mail <b>${esc(c.email)}</b> e esta senha.`} Mínimo de 8 caracteres.</p>
+          <div class="linha-senha">
+            <input type="text" id="nova-senha" autocomplete="new-password" placeholder="Nova senha" minlength="8">
+            ${proprio ? "" : `<button type="button" class="btn btn-contorno btn-sm" id="gerar-senha"><i data-lucide="wand-2"></i> Gerar</button>`}
+            <button type="button" class="btn btn-escuro btn-sm" id="definir-senha"><i data-lucide="check"></i> Definir senha</button>
+          </div>
+          <div id="senha-ok" class="form-msg"></div>`}
+        </div>` : ""}
       </form>
       <div class="gaveta-rod"><button class="btn btn-contorno btn-sm" data-fechar>Fechar</button><button class="btn btn-primario btn-sm" id="salvar-cor"><i data-lucide="save"></i> Salvar</button></div>`);
     $$("[data-fechar]").forEach((b) => b.onclick = fecharGaveta);
     ligarFotoCorretor(c);
+    ligarSenha(c, proprio);
     $("#salvar-cor").onclick = async () => {
       const f = $("#f-cor");
       if (!f.nome.value.trim()) { toast("Informe o nome.", true); return; }
