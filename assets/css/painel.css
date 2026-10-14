@@ -167,3 +167,8 @@ body.painel { background: #F3F2F0; min-height: 100vh; }
 .foto-perfil .avatar { width: 84px; height: 84px; margin: 0; border-width: 3px; font-size: 1.4rem; flex: 0 0 84px; }
 .foto-perfil label.btn { cursor: pointer; }
 .campo .foto-perfil label.btn { text-transform: none; letter-spacing: normal; font-size: .82rem; color: #fff; }
+.bloco-senha { border: 1px solid var(--borda); border-radius: 14px; padding: 16px; display: grid; gap: 10px; background: #FAFAF9; }
+.linha-senha { display: flex; gap: 8px; flex-wrap: wrap; }
+.linha-senha input { flex: 1 1 180px; padding: .6em .9em; border: 1.5px solid var(--borda); border-radius: 10px; font-family: ui-monospace, Consolas, monospace; }
+.linha-senha input:focus { outline: none; border-color: var(--laranja); }
+.bloco-senha .ajuda { font-size: .86rem; color: var(--texto-suave); }
