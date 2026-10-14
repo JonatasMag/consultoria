@@ -18,6 +18,7 @@ create table if not exists public.corretores (
   bio            text,
   foto_url       text,
   ativo          boolean not null default true,
+  visivel_site   boolean not null default true,
   is_admin       boolean not null default false,
   criado_em      timestamptz not null default now(),
   atualizado_em  timestamptz not null default now()
@@ -142,6 +143,7 @@ begin
   if not public.is_admin() then
     new.is_admin := old.is_admin;
     new.ativo    := old.ativo;
+    new.visivel_site := old.visivel_site;
     new.email    := old.email;
     new.user_id  := old.user_id;
   end if;
@@ -153,7 +155,7 @@ create trigger t_corretores_proteger before update on public.corretores for each
 -- ---------- PERMISSÕES DE COLUNA (o público só vê o necessário) ----------
 revoke all on public.corretores, public.imoveis, public.lead_interacoes from anon;
 revoke all on public.leads from anon;
-grant select (id, nome, creci, whatsapp, especialidades, bio, foto_url, ativo) on public.corretores to anon;
+grant select (id, nome, creci, whatsapp, especialidades, bio, foto_url, ativo, visivel_site) on public.corretores to anon;
 grant select (id, codigo, titulo, tipo, finalidade, status_obra, preco, condominio, iptu, cidade, bairro,
               area_privativa, area_total, quartos, suites, banheiros, vagas, andar, ano, descricao,
               diferenciais, fotos, aceita_financiamento, aceita_fgts, mcmv, destaque, publicado,
@@ -170,7 +172,7 @@ alter table public.lead_interacoes enable row level security;
 
 -- corretores
 drop policy if exists corretores_publico on public.corretores;
-create policy corretores_publico on public.corretores for select to anon using (ativo);
+create policy corretores_publico on public.corretores for select to anon using (ativo and visivel_site);
 drop policy if exists corretores_equipe_ver on public.corretores;
 create policy corretores_equipe_ver on public.corretores for select to authenticated using (ativo or public.is_corretor());
 drop policy if exists corretores_admin_inserir on public.corretores;

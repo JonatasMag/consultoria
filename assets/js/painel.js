@@ -591,7 +591,7 @@
       const ativos = S.leads.filter((l) => l.corretor_id === c.id && !["ganho", "perdido"].includes(l.status)).length;
       return `<tr data-id="${esc(c.id)}"><td style="display:flex;align-items:center;gap:10px"><span class="mini-av" style="margin:0;width:34px;height:34px;font-size:.75rem">${c.foto_url ? `<img src="${esc(c.foto_url)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : iniciais(c.nome)}</span><b>${esc(c.nome)}</b></td>
         <td>${esc(c.creci || "")}</td><td>${esc(c.email || "")}</td><td>${esc(c.whatsapp || "")}</td><td>${ativos}</td>
-        <td>${c.is_admin ? '<span class="etq laranja">Administrador</span>' : '<span class="etq">Corretor</span>'}</td><td>${c.ativo ? '<span class="st" style="color:#1F9D55">Ativo</span>' : '<span class="st" style="color:#9A9BA1">Inativo</span>'}</td></tr>`;
+        <td>${c.is_admin ? '<span class="etq laranja">Administrador</span>' : '<span class="etq">Corretor</span>'}</td><td>${c.ativo ? '<span class="st" style="color:#1F9D55">Ativo</span>' : '<span class="st" style="color:#9A9BA1">Inativo</span>'}${c.ativo && c.visivel_site === false ? ' <span class="etq">Oculto no site</span>' : ""}</td></tr>`;
     }).join("");
     $$("#tb-equipe tr[data-id]").forEach((tr) => tr.onclick = () => abrirCorretor(tr.dataset.id));
   }
@@ -670,7 +670,7 @@
   }
 
   function abrirCorretor(id) {
-    const c = id ? corretor(id) : { nome: "", email: "", creci: "", whatsapp: "55", especialidades: [], bio: "", foto_url: "", ativo: true, is_admin: false };
+    const c = id ? corretor(id) : { nome: "", email: "", creci: "", whatsapp: "55", especialidades: [], bio: "", foto_url: "", ativo: true, visivel_site: true, is_admin: false };
     const proprio = c.id === S.eu.id, admin = S.eu.is_admin;
     if (!admin && !proprio) { toast("Você só pode editar o seu próprio perfil.", true); return; }
     const v = (k) => esc(c[k] ?? "");
@@ -696,7 +696,8 @@
               </div>
             </div>
             <input type="hidden" name="foto_url" value="${v("foto_url")}"></div>
-          ${admin ? `<label class="switch"><input type="checkbox" name="ativo" ${c.ativo ? "checked" : ""} ${proprio ? "disabled" : ""}> Ativo (aparece no site e acessa o painel)</label>
+          ${admin ? `<label class="switch"><input type="checkbox" name="ativo" ${c.ativo ? "checked" : ""} ${proprio ? "disabled" : ""}> Ativo (acessa o painel e recebe leads)</label>
+          <label class="switch"><input type="checkbox" name="visivel_site" ${c.visivel_site !== false ? "checked" : ""}> Aparece no site (seção Corretores e fichas dos imóveis)</label>
           <label class="switch"><input type="checkbox" name="is_admin" ${c.is_admin ? "checked" : ""} ${proprio ? "disabled" : ""}> Administrador</label>` : ""}
         </div>
         ${c.id && (proprio || admin) ? `
@@ -720,10 +721,14 @@
       const f = $("#f-cor");
       if (!f.nome.value.trim()) { toast("Informe o nome.", true); return; }
       const obj = { id: c.id, nome: f.nome.value.trim(), creci: f.creci.value.trim(), whatsapp: soDigitos(f.whatsapp.value), especialidades: f.especialidades.value.split(",").map((s) => s.trim()).filter(Boolean), bio: f.bio.value.trim(), foto_url: f.foto_url.value.trim() || null };
-      if (admin) { obj.email = f.email.value.trim().toLowerCase() || null; if (!proprio) { obj.ativo = f.ativo.checked; obj.is_admin = f.is_admin.checked; } }
+      if (admin) { obj.email = f.email.value.trim().toLowerCase() || null; obj.visivel_site = f.visivel_site.checked; if (!proprio) { obj.ativo = f.ativo.checked; obj.is_admin = f.is_admin.checked; } }
       if (!obj.id) delete obj.id;
-      const { error } = await DB.salvar("corretores", obj);
-      if (!error) { toast("Perfil salvo"); fecharGaveta(); S.corretores = await DB.corretores(); if (proprio) S.eu = corretor(S.eu.id) || S.eu; renderTudo(); usuario(); }
+      let { error } = await DB.salvar("corretores", obj);
+      if (error && /visivel_site/.test(error.message || "")) {   // banco ainda sem a coluna nova
+        delete obj.visivel_site; ({ error } = await DB.salvar("corretores", obj));
+        var aviso = "Perfil salvo. Para usar \"Aparece no site\", rode o arquivo supabase/visivel-site.sql no Supabase.";
+      }
+      if (!error) { toast(aviso || "Perfil salvo", !!aviso); fecharGaveta(); S.corretores = await DB.corretores(); if (proprio) S.eu = corretor(S.eu.id) || S.eu; renderTudo(); usuario(); }
     };
   }
 

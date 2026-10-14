@@ -33,8 +33,10 @@ window.RZ = (() => {
     return data || null;
   }
   async function listarCorretores() {
-    if (!sb) return window.DEMO_CORRETORES.filter((c) => c.ativo);
-    const { data, error } = await sb.from("corretores").select(COL_CORRETOR).eq("ativo", true).order("nome");
+    if (!sb) return window.DEMO_CORRETORES.filter((c) => c.ativo && c.visivel_site !== false);
+    let { data, error } = await sb.from("corretores").select(COL_CORRETOR).eq("ativo", true).eq("visivel_site", true).order("nome");
+    if (error && /visivel_site/.test(error.message || "")) // banco ainda sem a coluna nova: mostra todos os ativos
+      ({ data, error } = await sb.from("corretores").select(COL_CORRETOR).eq("ativo", true).order("nome"));
     if (error) { console.error(error); return []; }
     return data || [];
   }

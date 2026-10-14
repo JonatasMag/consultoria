@@ -6,15 +6,16 @@
 window.REALIZA_CONFIG = {
   empresa: {
     nome: "Realiza Consultoria Imobiliária",
-    creci: "CRECI-J 0000",                 // ← número do CRECI jurídico
-    telefone: "(47) 99999-9999",           // ← telefone exibido
-    whatsapp: "5547999999999",             // ← só números, com 55 + DDD
-    email: "contato@realizaimoveis.com.br",
-    endereco: "Rua Exemplo, 123 — Centro",
+    creci: "",                             // ← CRECI jurídico (deixe vazio se não houver)
+    telefone: "(47) 99273-4973",           // ← telefone exibido
+    whatsapp: "5547992734973",             // ← só números, com 55 + DDD
+    email: "realizaci.adm@gmail.com",
+    endereco: "Rua João Manoel V. Filho — João Costa",
     cidade: "Joinville - SC",
     horario: "Seg a Sex 8h–18h · Sáb 9h–13h",
-    instagram: "https://instagram.com/",
-    facebook: "https://facebook.com/",
+    instagram: "https://www.instagram.com/realizaconsultoriaimobiliaria/",
+    facebook: "https://www.facebook.com/janderson.santosdesousa",
+    tiktok: "https://www.tiktok.com/@jj.corretores.ofc",
     youtube: ""
   },
 
