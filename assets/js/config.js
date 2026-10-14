@@ -15,7 +15,7 @@ window.REALIZA_CONFIG = {
     horario: "Seg a Sex 8h–18h · Sáb 9h–13h",
     instagram: "https://www.instagram.com/realizaconsultoriaimobiliaria/",
     facebook: "https://www.facebook.com/janderson.santosdesousa",
-    tiktok: "https://www.tiktok.com/@jj.corretores.ofc",
+    tiktok: "https://www.tiktok.com/@realizaimobiliaria.ofc",
     youtube: ""
   },
 
